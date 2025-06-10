@@ -34,6 +34,7 @@ class BookingController extends Controller
         'name' => $request->name,
         'email' => $request->email,
         'number_of_people' => $request->number_of_people,
+        'status' => 'pending'
     ]);
 
     return response()->json($booking, 201);
