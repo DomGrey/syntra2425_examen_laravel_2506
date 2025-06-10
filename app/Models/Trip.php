@@ -9,6 +9,13 @@ class Trip extends Model
 {
     //
     use HasFactory;
+    protected $fillable = [
+        'title',
+        'region',
+        'start_date',
+        'duration_days',
+        'price_per_person'
+    ];
     public function bookings()
     {
         return $this->hasMany(Booking::class);

@@ -14,15 +14,36 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $regions = ['west', 'east', 'north', 'central'];
+    
+    // Create one trip for each region
+    foreach ($regions as $region) {
         Trip::factory()
-        ->count(6)
-        ->has(Booking::factory()->count(4))
+            ->state(['region' => $region])
+            ->has(
+                Booking::factory()
+                    ->count(4)
+                    ->state(function () {
+                        return [
+                            'status' => fake()->randomElement(['pending', 'confirmed', 'cancelled'])
+                        ];
+                    })
+            )
+            ->create();
+    }
+    
+    // Create remaining trips
+    Trip::factory()
+        ->count(2)
+        ->has(
+            Booking::factory()
+                ->count(4)
+                ->state(function () {
+                    return [
+                        'status' => fake()->randomElement(['pending', 'confirmed', 'cancelled'])
+                    ];
+                })
+        )
         ->create();
-
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }
